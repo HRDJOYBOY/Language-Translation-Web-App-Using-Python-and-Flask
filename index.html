@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌍 Language Translator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    select {
+      padding: 6px;
+      margin: 5px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+
+    input[type="submit"] {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    #outputText {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px auto 10px auto;
+      max-width: 600px;
+      font-size: 18px;
+      color: #222;
+      word-wrap: break-word;
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .action-buttons button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .action-buttons button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌍 Language Translator</h1>
+
+  <form method="POST" action="/translate">
+    <textarea name="text" id="inputText" rows="5" placeholder="Enter text to translate...">{{ original_text if original_text else '' }}</textarea><br><br>
+
+    <label>From:</label>
+    <select name="source_lang">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="fr">French</option>
+      <option value="hi">Hindi</option>
+    </select>
+
+    <label>To:</label>
+    <select name="target_lang">
+      <option value="hi">Hindi</option>
+      <option value="ta">Tamil</option>
+      <option value="de">German</option>
+      <option value="en">English</option>
+    </select><br>
+
+    <input type="submit" value="Translate">
+  </form>
+
+  {% if translated_text %}
+    <div id="outputText">{{ translated_text }}</div>
+    <div class="action-buttons">
+      <button onclick="copyText()">📋 Copy</button>
+    </div>
+    <div class="action-buttons">
+      <audio controls>
+        <source src="{{ audio_path }}" type="audio/mpeg">
+        Your browser does not support the audio tag.
+      </audio>
+    </div>
+  {% endif %}
+
+  <script>
+    function copyText() {
+      const output = document.getElementById("outputText");
+      if (output) {
+        navigator.clipboard.writeText(output.innerText)
+          .then(() => alert("Copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      }
+    }
+  </script>
+
+</body>
+</html>
